@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气预报</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 50px;
+            color: rgba(0, 0, 0, 0.753);
+        }
+
+        h5{
+            color: #666;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        table {
+            margin: 20px auto;
+        }
+
+        td {
+            text-align: center;
+            width: 100px;
+            height: 50px;
+            font-size: 18px;
+            background-color: #eee;
+            color: rgba(0, 0, 0, 0.733);
+        }
+
+        thead td {
+            background-color: rgb(127, 214, 255);
+        }
+
+        thead :first-child {
+            border-radius: 20px 0 0 0;
+        }
+
+        thead :last-child {
+            border-radius: 0 20px 0 0;
+        }
+
+        #lasttr :first-child {
+            border-radius: 0 0 0 20px;
+        }
+
+        #lasttr :last-child {
+            border-radius: 0 0 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h2>{{area}}天气预报</h2>
+        <h5>{{tip}}</h5>
+        <table>
+            <thead>
+                <td>日期</td>
+                <td>风向</td>
+                <td>风力</td>
+                <td>最高温度</td>
+                <td>最低温度</td>
+                <td>天气类型</td>
+            </thead>
+            <tr v-for="item in list">
+                <td>{{item.date}}</td>
+                <td>{{item.fengxiang}}</td>
+                <td>{{item.fengli}}</td>
+                <td>{{item.high}}</td>
+                <td>{{item.low}}</td>
+                <td>{{item.type}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: "#app",
+
+            data: {
+                message: "hello",
+                list:[],
+                area:"",
+                tip:""
+            },
+
+            created() {
+                console.log(this.message);
+                let that = this;
+                let xhr = new XMLHttpRequest();
+                let url = "http://wthrcdn.etouch.cn/weather_mini?city=武汉";
+
+                xhr.open("GET", url);
+
+                xhr.send();
+
+                xhr.onload = function () {
+                    console.log(JSON.parse(xhr.response));
+                    console.log(that.message);
+                    that.list = JSON.parse(xhr.response).data.forecast;
+
+                    for(let i=0; i<that.list.length; i++){
+                        let item = that.list[i];
+                        item.fengli = item.fengli.slice(9,-3);
+                    }
+
+                    that.area = JSON.parse(xhr.response).data.city;
+                    that.tip = JSON.parse(xhr.response).data.ganmao;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

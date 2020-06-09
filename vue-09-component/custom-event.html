@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义事件</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <book v-for="(item,index) in list" @change-name="appChangeName" :name="item.name" :author="item.author" :index="index"></book>
+    </div>
+
+    <script>
+        Vue.component("book", {
+            props:["name","author", "index"],
+            template:`
+                <div>
+                    <div>书名：{{name}}</div>
+                    <div>作者：{{author}}</div>
+                    <button @click="changeName">改名字</button>
+                </div>
+            `,
+
+            methods:{
+                changeName(){
+                   this.$emit("change-name", this.index);
+                }
+            }
+        });
+        var app = new Vue({
+            el:"#app",
+            data:{
+                list:[
+                    {
+                        name:"西游记",
+                        author:"吴承恩"
+                    },
+                    {
+                        name:"红楼梦",
+                        author:"曹雪芹"
+                    }
+                ]
+            },
+
+            methods:{
+                appChangeName(event){
+                    console.log(event);
+                    this.list[event].name = "我自己改的";
+                }
+            }
+        });
+    </script>
+</body>
+</html>

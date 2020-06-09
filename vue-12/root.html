@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>访问根实例</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component></my-component>
+        {{message}}
+    </div>
+
+    <script>
+        Vue.component("my-component", {
+            template:`
+                <div>
+                    <button @click="changeData">修改根元素的数据</button>
+                </div>
+            `,
+
+            methods:{
+                changeData(){
+                    // this.$root.message="我是子元素直接改的";
+                    this.$parent.message="我是子元素改的，通过父实例"
+                }
+            }
+        })
+
+        var app = new Vue({
+            el:"#app",
+            data:{
+                message:"我是初始化的"
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态过渡</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        .fade-enter-active, .fade-leave-active{
+            transition: all 3s;
+        }
+
+        .fade-enter,.fade-leave-to{
+            opacity: 0;
+        }
+
+        .slide-enter-active, .slide-leave-active{
+            transition: all 3s;
+        }
+
+        .slide-enter,.slide-leave-to{
+            transform: translateY(30px);
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="show=!show">切换</button>
+        <p>
+            <transition :name="transitionName">
+                <span v-if="show" style="display: inline-block;">你好</span>
+            </transition>
+        </p>
+        <button @click="transitionName='fade'">渐变</button>
+        <button @click="transitionName='slide'">滑动</button>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                show:true,
+                transitionName:"fade"
+            }
+        });
+    </script>
+</body>
+</html>

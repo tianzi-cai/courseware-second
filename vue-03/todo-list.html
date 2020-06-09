@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作业</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,body,#app{
+            height: 100%;
+        }
+
+        #app{
+            width: 600px;
+            margin: 0 auto;
+            background: #f8f8f8;
+        }
+
+        .top-bar{
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .input{
+            font-size: 18px;
+            padding: 10px 12px;
+            flex-grow: 1;
+            margin-right: 10px;
+            outline: none;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .btn{
+            font-size: 18px;
+            padding: 6px 12px;
+            border: none;
+            background: #128bed;
+            color: #fff;
+            border-radius: 3px;
+        }
+
+        .list-wrap{
+            padding: 0 12px;
+        }
+
+        .list-item{
+            list-style-type: none;
+            padding: 10px 0;
+            font-size: 16px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="top-bar">
+            <input class="input" v-model="message" type="text" placeholder="请输入待办事件">
+            <button class="btn" v-on:click="add">增加</button>
+        </div>
+        <ul class="list-wrap">
+            <li v-for="item in list" class="list-item">{{item}}</li>
+        </ul>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                message:"",
+                list:[]
+            },
+            methods:{
+                add(){
+                    console.log(this.list);
+                    
+                    if(this.message.trim()){
+                        if(this.list.indexOf(this.message.trim())>-1){
+                            alert("不要重复添加相同的事件");
+                        }else{
+                            this.list.push(this.message.trim());
+                            this.message="";
+
+                            localStorage.setItem("my-todo-list", JSON.stringify(this.list));
+                        }
+                        
+                    }else{
+                        alert("不要输入空的东西");
+                    }
+                }
+            },
+
+            created(){
+                let list = localStorage.getItem("my-todo-list");
+
+                if(list){
+                    this.list = JSON.parse(localStorage.getItem("my-todo-list"));
+                }
+                
+            }
+        });
+    </script>
+</body>
+</html>

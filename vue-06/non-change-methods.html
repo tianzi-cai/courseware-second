@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非变更方法，替换数组就行</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="item in list">
+                {{item}}
+            </li>
+        </ul>
+        <button @click="myFilter">过滤</button>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                list: [1, 2, 3, 4]
+            },
+            methods:{
+                myFilter(){
+                    this.list = this.list.filter(function(item){
+                        if(item%2==0){
+                            return item;
+                        }
+                    });
+                }
+            }
+            
+        });
+
+    
+    </script>
+</body>
+
+</html>

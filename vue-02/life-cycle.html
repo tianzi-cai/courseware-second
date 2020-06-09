@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命周期</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{message}}
+    </div>
+
+    <script>
+       
+        var app = new Vue({
+            el:"#app",
+            data:{
+                message:"你好啊"
+            },
+
+            // 创建之前
+            beforeCreate:function(){
+                console.log("生命周期钩子：beforeCreate");
+                console.log(this.message);
+            },
+
+            // 创建之后，可以获取数据了
+            created(){
+                console.log("生命周期钩子：created");
+                console.log(this.message);
+                console.log(this.$el);
+            },
+
+            // 挂载之前
+            beforeMount(){
+                console.log("生命周期钩子：beforeMount");
+                console.log(this.$el);
+            },
+
+            // 挂载之后
+            mounted(){
+                console.log("生命周期钩子：mounted");
+                console.log(this.$el);
+            },
+
+            // 数据修改触发
+            beforeUpdate(){
+                console.log("生命周期钩子：beforeUpdate");
+                console.log(this.message);
+            },
+
+            // 中间触发虚拟dom修改，触发页面更新
+            // 数据修改触发
+            updated(){
+                console.log("生命周期钩子：updated");
+                console.log(this.message);
+            },
+
+            // 销毁
+            beforeDestroy(){
+                console.log("生命周期钩子：beforeDestroy");
+                console.log(this.message);
+            },
+
+            destroyed(){
+                console.log("生命周期钩子：destroyed");
+                console.log(this.message);
+            }
+        });
+    </script>
+</body>
+</html>

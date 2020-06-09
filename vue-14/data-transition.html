@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>状态过渡</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.4/gsap.min.js"></script>
+
+</head>
+<body>
+    <div id="app">
+       <p>
+           <input type="number" step="20" v-model.number="number">
+       </p>
+       <p>
+           {{tweenedNumber.toFixed(0)}}
+       </p>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                number:0,
+                tweenedNumber:0
+            },
+            watch:{
+                number(newVal){
+                    gsap.to(this.$data, { duration: 0.5, tweenedNumber: newVal });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

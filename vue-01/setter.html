@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原理简单解析</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        let obj = {
+            tempValue:"hello",
+            set name(value){
+                this.tempValue = value;
+                document.getElementById("app").innerHTML = value;
+            },
+
+            get name(){
+                return this.tempValue;
+            }
+        };
+
+        console.log(obj);
+
+        document.getElementById("app").innerHTML = obj.name;
+    </script>
+</body>
+</html>

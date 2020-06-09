@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选项的合并</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{message}}
+    </div>
+
+    <script>
+        // 数据对象执行就近原则，自己的为准
+        // 钩子函数都会执行，混入的先执行，自身的后执行
+        // 值为对象的，执行合并，键冲突，以自身为准
+        var mix = {
+            data(){
+                return {
+                    message:"我是混入的"
+                }
+            },
+
+            created(){
+                console.log("我是混入的")
+            },
+
+            methods:{
+                a(){
+                    console.log("a");
+                },
+                b(){
+                    console.log("b")
+                }
+            }
+        };
+
+        var app = new Vue({
+            el:"#app",
+            data:{
+                message:"我是根的"
+            },
+            mixins:[mix],
+            created(){
+                console.log("我是根的")
+            },
+            methods:{
+                b(){
+                    console.log("app b")
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>滑动</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        .v-enter,.v-leave-to{
+            transform: translateX(50px);
+            opacity: 0;
+        }
+
+        .v-enter-active,.v-leave-active{
+            display: inline-block;
+            transition: all 3s ease;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="show=!show">切换</button>
+        <transition>
+            <span v-if="show">hello</span>
+        </transition>
+
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                show: true
+            }
+        });
+    </script>
+</body>
+
+</html>

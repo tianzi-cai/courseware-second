@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件上使用v-model</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <my-input :value="message" @input="message=$event"></my-input> -->
+        <my-input v-model="message"></my-input>
+
+        <!-- <p>我是自定义的组件</p>
+        <input type="text" v-model="message">
+        <p>到此为止</p> -->
+        <p>{{message}}</p>
+    </div>
+    <script>
+        Vue.component("my-input", {
+            props:["value"],
+            template: `
+                <div>
+                    <p>我是自定义的组件</p>
+                    <input type="text" :value="value" @input="$emit('input',$event.target.value)">
+                    <p>到此为止</p>
+                </div>
+            `
+        });
+        let app = new Vue({
+            el: "#app",
+            data: {
+                message: ""
+            }
+        });
+    </script>
+</body>
+
+</html>

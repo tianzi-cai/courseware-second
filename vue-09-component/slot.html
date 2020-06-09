@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>插槽</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component>
+            <div>你好</div>
+            <div>你好</div>
+        </my-component>
+    </div>
+
+    <script>
+        Vue.component("my-component", {
+            template:`
+                <div>
+                    <slot></slot>
+                    <p>我是第一行</p>
+                    <p>我是第二行</p>
+                </div>
+            `
+        });
+
+        let app = new Vue({
+            el:"#app"
+        });
+    </script>
+</body>
+</html>

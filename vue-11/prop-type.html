@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>prop类型</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component :post-title="'标题'" :price="123" :is-published='false' 
+        :comment-ids="[1,2,3]" :author="{name:'小明'}"></my-component>
+    </div>
+
+    <script>
+        Vue.component("my-component",{
+            props:{
+                postTitle:String,
+                price:Number,
+                isPublished:Boolean,
+                commentIds:Array,
+                author:Object
+            },
+            template:`
+                <div>
+                    <p>{{postTitle}}</p>
+                    <p>{{price}}</p>
+                    <p>{{isPublished}}</p>
+                    <p>{{commentIds}}</p>
+                    <p>{{author}}</p>
+                </div>
+            `
+        });
+
+        var app = new Vue({
+            el:"#app"
+        });
+    </script>
+</body>
+</html>

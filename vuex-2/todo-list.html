@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作业</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.4.0/dist/vuex.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body,
+        #app {
+            height: 100%;
+        }
+
+        #app {
+            width: 600px;
+            margin: 0 auto;
+            background: #f8f8f8;
+        }
+
+        .top-bar {
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .input {
+            font-size: 18px;
+            padding: 10px 12px;
+            flex-grow: 1;
+            margin-right: 10px;
+            outline: none;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .btn {
+            font-size: 18px;
+            padding: 6px 12px;
+            border: none;
+            background: #128bed;
+            color: #fff;
+            border-radius: 3px;
+        }
+
+        .list-wrap {
+            padding: 0 12px;
+        }
+
+        .list-item {
+            list-style-type: none;
+            padding: 10px 0;
+            font-size: 16px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .title {
+            padding: 10px 12px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #666;
+            border-bottom: 1px solid #128bed;
+        }
+
+        .btn-wrap {
+            flex-shrink: 0;
+        }
+
+        .finish-item {
+            color: #999;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <my-input></my-input>
+        <div class="title">未完成列表</div>
+        <todo-item></todo-item>
+
+        <div class="title">完成列表</div>
+        <finish-item></finish-item>
+    </div>
+
+    <script type="module">
+        import {myInput} from "./component/my-input.js";
+        import {todoItem} from "./component/todo-item.js";
+        import {finishItem} from "./component/finish-item.js";
+
+        var store = new Vuex.Store({
+            state:{
+                todoList:[],
+                finishList:[]
+            },
+
+            mutations:{
+                add(state, message){
+                    if(state.todoList.indexOf(message)<0){
+                        state.todoList.push(message);
+                    }
+                },
+
+                // 完成待办事项
+                finishItem(state, index) {
+                    state.finishList.push(state.todoList[index]);
+                    state.todoList.splice(index, 1);
+                },
+                // 删除待办事项
+                deleteTodo(state, index) {
+                    state.todoList.splice(index, 1);
+                },
+
+                // 删除完成事项
+                deleteFinish(state,index) {
+                    state.finishList.splice(index, 1);
+                }
+            }
+        });
+       
+        var app = new Vue({
+            el: "#app",
+            store:store,
+            components:{
+                "my-input":myInput,
+                "todo-item":todoItem,
+                "finish-item":finishItem
+            }
+        });
+    </script>
+</body>
+
+</html>

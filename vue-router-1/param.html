@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>路由器</title>
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <router-view></router-view>
+    </div>
+
+    <script>
+      
+        const UserList = {
+            template:`
+                <div>
+                    <p>
+                        <router-link to="/detail/123?name=xiaoming">小明</router-link>
+                    </p>
+                    <p>
+                        <router-link to="/detail/456">小红</router-link>
+                    </p>
+                    <p>
+                        <router-link to="/detail/789">小绿</router-link>
+                    </p>
+                </div>
+            `
+        }
+
+        const UserDetail = {
+            created(){
+                console.log(this);
+            },
+            template:`
+                <div>
+                    {{$route.params.id}}
+                </div>
+            `
+        }
+
+        const routes = [
+            { path: '/', component: UserList },
+            { path: '/detail/:id', component: UserDetail }
+        ];
+
+        const router = new VueRouter({
+            routes:routes // (缩写) 相当于 routes: routes
+        });
+
+
+        var app = new Vue({
+            el: "#app",
+            router:router
+        });
+
+    </script>
+</body>
+
+</html>

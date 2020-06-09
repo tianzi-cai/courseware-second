@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图的滑动效果</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        .god-swiper {
+            width: 500px;
+            height: 500px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .god-wrap {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            height: 100%;
+            width: 400%;
+            transition: all .3s;
+        }
+
+        .god-swiper-item {
+            width: 500px;
+            height: 100%;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="god-swiper">
+            <div class="god-wrap" :style="styleObj">
+                <div class="god-swiper-item" style="background: red;">第一页</div>
+                <div class="god-swiper-item" style="background: blueviolet;">第二页</div>
+                <div class="god-swiper-item" style="background: gold;">第三页</div>
+                <div class="god-swiper-item" style="background: seagreen;">第四页</div>
+            </div>
+        </div>
+
+        <button @click="prePage">上一页</button>
+        <button @click="nextPage">下一页</button>
+    </div>
+
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                index: 0
+            },
+            computed: {
+                styleObj() {
+                    return {
+                        transform: 'translateX(' + (-this.index * 500) + 'px)'
+                    }
+                }
+            },
+            methods: {
+                prePage() {
+                    if (this.index > 0) {
+                        this.index--;
+                    }
+                },
+                nextPage() {
+                    if (this.index < 3) {
+                        this.index++;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

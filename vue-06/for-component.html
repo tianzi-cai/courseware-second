@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>for用在组件上</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-book v-for="item in list" :name="item.name" :author="item.author" :key="item.name"></my-book>
+    </div>
+    <script>
+        Vue.component("my-book",{
+            props:['name','author'],
+            template:`
+            <div>
+                <p>{{name}}</p>
+                <p>{{author}}</p>
+            </div>
+            `
+        });
+        var app = new Vue({
+            el:"#app",
+            data:{
+                list:[
+                    {
+                        name:"三体",
+                        author:"刘慈欣"
+                    },
+                    {
+                        name:"平凡的世界",
+                        author:"路遥"
+                    },
+                    {
+                        name:"西游记",
+                        author:"吴承恩"
+                    }
+                ]
+            }
+        });
+    </script>
+</body>
+</html>

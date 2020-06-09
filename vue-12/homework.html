@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电子名片</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        #app{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card{
+            width: 400px;
+            height: 300px;
+            background: url("au.png") no-repeat;
+            background-size: cover;
+            border-radius: 5px;
+            padding: 20px 10px 20px 10px;
+            margin-top: 5px;
+        }
+
+        .name{
+            text-align: center;
+            color: slateblue;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .job{
+            margin-top: 5px;
+            text-align: center;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .company{
+            margin-top: 5px;
+            text-align: center;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .desc{
+            margin-top: 15px;
+            font-size: 16px;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 60px;
+        }
+
+        .contact{
+            text-align: right;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <card name="阿毛" job="前端工程师" company="非正常人类研究所" desc="天下武功，唯快不破"
+        phone="18621945104" email="abc@qq.com"></card>
+
+        <card name="阿毛" job="前端工程师" company="非正常人类研究所" desc="天下武功，唯快不破"
+        phone="18621945104" email="abc@qq.com"></card>
+    </div>
+
+    <script>
+        Vue.component("card",{
+            props:{
+                name:{
+                    type:String,
+                    required:true
+                },
+                job:{
+                    type:String,
+                    required:true
+                },
+                company:{
+                    type:String,
+                    required:true
+                },
+                desc:{
+                    type:String
+                },
+
+                phone:{
+                    type:String,
+                    validator:function(value){
+                        return (/^1[3456789]\d{9}$/.test(value));
+                    }
+                },
+
+                email:{
+                    type:String,
+                    validator:function(value){
+                        return (/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(value))
+                    }
+                }
+            },
+            template:`
+            <div class="card">
+                <div class="name">{{name}}</div>
+                <div class="job">{{job}}</div>
+                <div class="company">{{company}}</div>
+                <div class="desc">{{desc}}</div>
+
+                <div class="contact">{{phone}}</div>
+                <div class="contact">{{email}}</div>
+            </div>
+            `
+        });
+
+        var app = new Vue({
+            el:"#app"
+        });
+    </script>
+</body>
+</html>

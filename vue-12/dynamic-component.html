@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态组件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <keep-alive>
+            <component :is="componentName"></component>
+        </keep-alive>
+        
+        
+        <button @click="componentName='my-component-one'">组件one</button>
+        <button @click="componentName='my-component-two'">组件two</button>
+    </div>
+
+    <script>
+        Vue.component("my-component-one", {
+            activated(){
+                console.log("你能看到老子了");
+            },
+            deactivated(){
+                console.log("你不能看到老子了");
+            },
+            template:`
+            <div><input type="text" /></div>
+            `
+        });
+
+        Vue.component("my-component-two", {
+            template:`
+            <div>我是组件two</div>
+            `
+        });
+        var app = new Vue({
+            el:"#app",
+            data:{
+                componentName:"my-component-one"
+            }
+        });
+    </script>
+</body>
+</html>

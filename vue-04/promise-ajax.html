@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基于promise的ajax请求</title>
+</head>
+<body>
+    <script>
+        let promise = new Promise(function(resolve, reject){
+            // 未来事件，一般就是一个异步任务
+            // ajax请求
+            let xhr = new XMLHttpRequest();
+            let url = "https://api.apiopen.top/getJoke?page=1&count=10&type=image";
+            xhr.open("GET", url);
+            xhr.send();
+
+            xhr.onload = function(){
+                resolve(xhr.response);
+            }
+
+            xhr.onerror = function(){
+                reject();
+            }
+        });
+
+        // 成功的方法，代替构造函数中的resolve
+        promise.then(function(result){
+            console.log("请求成功");
+            console.log(result);
+        });
+        // 失败的方法，代替构造函数中的reject
+        promise.catch(function(){
+            console.log("请求失败");
+        });
+        // 不管成功失败，都执行的方法
+        promise.finally(function(){
+            console.log("不管成功失败,哥都执行");
+        });
+    </script>
+</body>
+</html>

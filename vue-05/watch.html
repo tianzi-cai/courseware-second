@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>侦听器</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{message}}</p>
+        <button @click="message='123'">修改值</button>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                message:"hello",
+            },
+            watch:{
+                message:function(newVal, oldVal){
+                    console.log("我是侦听器，我要侦听message的变化");
+                    console.log("新值："+ newVal);
+                    console.log("旧值：" + oldVal)
+                }
+            }
+        });
+    </script>
+</body>
+</html>

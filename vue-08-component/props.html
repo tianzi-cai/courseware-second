@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>父子传值</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <book v-for="item in list" :obj="item"></book>
+    </div>
+
+    <script>
+        Vue.component("book", {
+            props:["obj"],
+            template:`
+                <div>
+                    <div>书名：{{obj.name}}</div>
+                    <div>作者：{{obj.author}}</div>
+                </div>
+            `
+        });
+        var app = new Vue({
+            el:"#app",
+            data:{
+                list:[
+                    {
+                        name:"西游记",
+                        author:"吴承恩"
+                    },
+                    {
+                        name:"红楼梦",
+                        author:"曹雪芹"
+                    }
+                ]
+            }
+        });
+    </script>
+</body>
+</html>

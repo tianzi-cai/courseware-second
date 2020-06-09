@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编译作用域</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component>{{name}}</my-component>
+    </div>
+
+    <script>
+       Vue.component("my-component", {
+           template:`
+            <div>
+                <p>第一行</p>
+                <slot></slot>
+                <p>最后一行</p>
+            </div>
+           `
+       });
+
+       var app = new Vue({
+           el:"#app",
+           data:{
+               name:"我是app的数据"
+           }
+       });
+    </script>
+</body>
+</html>

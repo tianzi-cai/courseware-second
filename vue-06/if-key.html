@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>key阻止元素复用</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <template v-if="userNameLogin">
+            <label>用户名：</label>
+            <input type="text" placeholder="输入用户名" key="user-name" />
+        </template>
+        <template v-else>
+            <label>邮箱：</label>
+            <input type="text" placeholder="输入邮箱" key="email" />
+        </template>
+
+        <p>
+            <button @click="changeLogin">切换</button>
+        </p>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                userNameLogin: true
+            },
+            methods:{
+                changeLogin(){
+                    this.userNameLogin = !this.userNameLogin;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

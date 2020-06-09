@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>省市区三级联动</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <select v-model="provinceSelected" @change="provinceChange">
+            <option disabled value="">请选择</option>
+            <option v-for="item in proviceList" :value="item">{{item.name}}</option>
+        </select>
+
+        <select v-model="citySelected" @change="cityChange">
+            <option disabled value="">请选择</option>
+            <option v-for="item in cityList" :value="item">{{item.name}}</option>
+        </select>
+
+        <select v-model="areaSelected">
+            <option disabled value="">请选择</option>
+            <option v-for="item in areaList" >{{item}}</option>
+        </select>
+        <p>
+            {{provinceSelected.name}}--{{citySelected.name}}--{{areaSelected}}
+        </p>
+    </div>
+
+    <script>
+        var list = [
+            {
+                name: "江苏省",
+                cityList: [
+                    {
+                        name: "苏州市",
+                        areaList: ["吴江区", "吴中区"]
+                    },
+                    {
+                        name: "南京市",
+                        areaList: ["江宁区", "鼓楼区"]
+                    }
+                ]
+            },
+            {
+                name: "浙江省",
+                cityList: [
+                    {
+                        name: "杭州市",
+                        areaList: ["上城区", "下城区"]
+                    },
+                    {
+                        name: "温州市",
+                        areaList: ["江南区", "皮革区"]
+                    }
+                ]
+            }
+        ];
+        var app = new Vue({
+            el: "#app",
+            data: {
+                proviceList: [],
+                provinceSelected:"",
+
+                cityList:[],
+                citySelected:"",
+
+                areaList:[],
+                areaSelected:"",
+            },
+            created() {
+                this.proviceList = list;
+                this.provinceSelected = list[0];
+
+                this.cityList = list[0].cityList;
+                this.citySelected = this.cityList[0];
+
+                this.areaList = this.cityList[0].areaList;
+                this.areaSelected = this.areaList[0];
+            },
+
+            methods:{
+                provinceChange(){
+                    console.log("省份切换");
+                    this.cityList = this.provinceSelected.cityList;
+                    this.citySelected = this.cityList[0];
+
+                    this.areaList = this.cityList[0].areaList;
+                    this.areaSelected = this.areaList[0];
+                },
+
+                cityChange(){
+                    this.areaList = this.citySelected.areaList;
+                    this.areaSelected = this.areaList[0];
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

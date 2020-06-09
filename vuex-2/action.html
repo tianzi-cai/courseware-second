@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>actions</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.4.0/dist/vuex.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{name}}
+    </div>
+
+    <script>
+        var store = new Vuex.Store({
+            state:{
+                name:"小明"
+            },
+            mutations:{
+                changeName(state,name){
+                    state.name = name;
+                }
+            },
+
+            // 可以通过store对象分发action，dispatch这个函数
+            actions:{
+                changeName(context, name){
+                    setTimeout(function(){
+                        context.commit("changeName", name)
+                    }, 2000);
+                }
+            }
+        });
+
+        var app = new Vue({
+            el:"#app",
+            store:store,
+            computed:{
+                name(){
+                    return this.$store.state.name
+                }
+            }
+        });
+    </script>
+</body>
+</html>

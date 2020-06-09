@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>set方法改变数组元素</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="item in list">
+                {{item}}
+            </li>
+        </ul>
+        
+
+        <div v-for="n in 10">{{n}}</div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                list: [1, 2, 3, 4]
+            },
+            
+        });
+
+        // Vue.set(app.list, 3, 10);
+        // app.$set(app.list, 0, 20)
+    </script>
+</body>
+
+</html>

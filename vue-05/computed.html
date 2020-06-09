@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算属性</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{message.split("").reverse().join("")}}</p>
+        <p>{{reverseMessage}}</p>
+        <p>性别：{{sexDesc}}</p>
+
+        <p>方法变化的：{{reverseMessageFunc()}}</p>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                message:"hello",
+                sex:1
+            },
+
+            methods:{
+                // 方法每次都会执行计算，没有缓存
+                reverseMessageFunc(){
+                    return this.message.split("").reverse().join("");
+                }
+            },
+
+            computed:{
+                // 计算属性有缓存，除非数据属性有变化，否则不会触发函数执行
+                reverseMessage:function(){
+                    return this.message.split("").reverse().join("");
+                },
+                sexDesc:function(){
+                    if(this.sex==1){
+                        return "男";
+                    }
+                    return "女";
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>姓氏介绍</title>
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+    <style>
+        .item {
+            padding: 10px;
+            color: #333;
+            font-size: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .xing {
+            font-size: 20px;
+            color: green;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .tip {
+            width: 80%;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 12px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <router-view></router-view>
+    </div>
+</body>
+
+<script>
+    // 1.定义组件选项对象
+    let list = {
+        data() {
+            return {
+                list: ["张", "金", "杨", "黄", "王", "尤", "蒋"]
+            }
+        },
+        template: `
+        <div>
+            <div class="item" v-for="item in list">
+                <router-link :to="'/detail?id='+item">{{item}}</router-link>
+            </div>
+        </div>
+        `
+    };
+
+    let detail = {
+        data() {
+            return {
+                detail: "",
+                loading: true
+            }
+        },
+        created() {
+            this.getData();
+        },
+        methods: {
+            getData() {
+                console.log(this.$route);
+                let id = this.$route.query.id;
+
+                let url = "http://api.tianapi.com/txapi/surname/index?key=ac11ec205b904c2aed00686ec712c493&xing=" + id;
+
+                let that = this;
+                axios.get(url)
+                    .then(function (response) {
+                        console.log(response);
+                        that.detail = response.data.newslist[0].content;
+                        that.loading = false;
+                    });
+
+            }
+        },
+
+        watch:{
+            $route:function(newVal, oldVal){
+                this.getData();
+            }
+        },
+        template: `
+        <div>
+            <div class="xing">姓氏：{{$route.query.id}}</div>
+            <div v-html="detail"></div>
+            <div class="tip" v-if="loading">加载中。。。。。</div>
+        </div>
+        `
+    };
+
+    // 2.定义路由的数组
+    const routes = [
+        {
+            path: "/",
+            component: list
+        },
+        {
+            path: "/detail",
+            component: detail
+        }
+    ];
+
+    // 3.创建路由器
+    const router = new VueRouter({
+        routes: routes
+    });
+
+
+    // 4.创建应用
+    var app = new Vue({
+        el: "#app",
+        router: router
+    });
+</script>
+
+</html>

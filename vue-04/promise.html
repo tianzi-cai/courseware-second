@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise对象</title>
+</head>
+
+<body>
+    <script>
+
+        let promise = new Promise(function(resolve, reject){
+            // 未来事件，一般就是一个异步任务
+            // ajax请求
+            if("未来事件成功"){
+                // 调用成功方法
+                resolve();
+            }else{
+                // 调用失败的方法
+                reject();
+            }
+        });
+        // 成功的方法，代替构造函数中的resolve
+        promise.then(function(){
+
+        });
+        // 失败的方法，代替构造函数中的reject
+        promise.catch(function(){
+
+        });
+        // 不管成功失败，都执行的方法
+        promise.finally(function(){
+
+        });
+
+
+    </script>
+</body>
+
+</html>

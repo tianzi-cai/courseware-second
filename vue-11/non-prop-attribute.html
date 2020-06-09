@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非prop属性</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component post-title="你好" abc="abc" class="abc"></my-component>
+    </div>
+
+    <script>
+        // 非prop属性，即props里面未声明的属性，会自动添加到组件模板的根元素上
+        // 假如根元素上已经有了相同的属性，那么默认还是用父组件传过来的属性，默认行为就是替换
+        // class和style特殊，执行合并行为
+        Vue.component("my-component",{
+            props:["postTitle"],
+            template:`
+                <div id='abc' abc='123' class='bcd'>{{postTitle}}</div>
+            `
+        });
+
+        var app = new Vue({
+            el:"#app"
+        });
+    </script>
+</body>
+</html>

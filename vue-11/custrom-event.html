@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义事件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component @my-event="abc"></my-component>
+    </div>
+    <script>
+        Vue.component("my-component",{
+            template:`
+                <div>
+                    <button @click='btnClick'>触发自定义的事件</button>
+                </div>
+            `,
+
+            methods:{
+                btnClick(){
+                    this.$emit("my-event",{name:"abc"});
+                }
+            }
+        });
+        var app = new Vue({
+            el:"#app",
+            methods:{
+                abc(a){
+                    console.log(a);
+                    console.log("我是父组件的函数");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

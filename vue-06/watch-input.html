@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟获取热搜词,防抖动的实现</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>
+            <input type="text" placeholder="请输入关键词" v-model="msg">
+        </p>
+
+        <div>
+            热搜列表
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                msg:"",
+                timer:null
+            },
+            watch:{
+                msg:function(newVal){
+                    let that = this;
+                    if(this.timer){
+                        clearTimeout(this.timer);
+                        this.timer = null;
+                    }
+
+                    this.timer = setTimeout(function(){
+                        console.log(that.msg);
+                        console.log("这个时候可以去请求服务器了");
+                    }, 500);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

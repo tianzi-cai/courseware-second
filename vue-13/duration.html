@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第一个示例</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        /* 进入的动画效果 */
+        .fade-enter-active {
+            transition: all 5s;
+        }
+        .fade-enter {
+            background: red;
+        }
+
+        .fade-leave-active{
+            transition: all 5s;
+        }
+        .fade-leave-to{
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="show=!show">切换</button>
+        <!-- 手动设置动画时间，假如时间比动画长，那么保留类名至时间结束 -->
+        <!-- 假如时间比动画短，那么强行停止动画 -->
+        <transition name="fade" :duration="500">
+            <p v-if="show">我是会消失的</p>
+        </transition>
+
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                show: true
+            }
+        });
+    </script>
+</body>
+
+</html>

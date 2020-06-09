@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编程式的导航</title>
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>
+            <button @click="pushString">push字符串</button>
+            <button @click="pushObj">push对象</button>
+            <button @click="pushName">push命名的路由</button>
+            <button @click="pushQuery">push查询参数</button>
+        </p>
+        <router-view></router-view>
+    </div>
+
+    <script>
+        const Home = {
+            template:"<div>home</div>"
+        }
+
+        const Login = {
+            template:"<div>Login{{$route.params.id}}</div>"
+        }
+       
+        const routes = [
+            {
+                path:"/home",
+                component:Home
+            },
+            {
+                name:"login",
+                path:"/login/:id",
+                component:Login
+            }
+        ];
+
+       
+        const router = new VueRouter({
+            routes:routes
+        });
+
+
+        var app = new Vue({
+            el: "#app",
+            router:router,
+            methods:{
+                pushString(){
+                    this.$router.push("home");
+                },
+
+                pushObj(){
+                    this.$router.push({
+                        path:"home"
+                    });
+                },
+
+                pushName(){
+                    this.$router.push({
+                        name:"login",
+                        params:{
+                            id:"123"
+                        }
+                    });
+                },
+
+                pushQuery(){
+                    this.$router.push({
+                        path:"home",
+                        query:{
+                            id:"nihao",
+                            name:"小明"
+                        }
+                    });
+                }
+
+            }
+        });
+    </script>
+</body>
+
+</html>

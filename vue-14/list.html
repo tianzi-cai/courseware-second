@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表的过渡</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        .item{
+            display: inline-block;
+            margin-right: 10px;
+            background: red;
+        }
+
+        .list-enter-active,.list-leave-active{
+            transition: all 2s;
+        }
+
+        .list-enter,.list-leave-to{
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="add">增加</button>
+        <button @click="remove">删除</button>
+
+        <transition-group name="list" tag="p">
+            <span class="item" v-for="item in list" :key="item">{{item}}</span>
+        </transition-group>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                list:[1,2,3,4,5,6,7,8,9],
+                nextNum:10
+            },
+
+            methods:{
+                randomIndex(){
+                    return Math.floor(Math.random() * this.list.length);
+                },
+
+                add(){
+                    this.list.splice(this.randomIndex(),0,this.nextNum++);
+                },
+
+                remove(){
+                    this.list.splice(this.randomIndex(),1);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

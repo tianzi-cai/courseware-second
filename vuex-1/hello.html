@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第一个示例</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.4.0/dist/vuex.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{count}}
+        <p>
+            <button @click="btnClick">自增</button>
+        </p>
+    </div>
+
+    <script>
+        let store = new Vuex.Store({
+            state:{
+                count:8
+            },
+            mutations:{
+                add(state, payload){
+                    state.count+=payload;
+                }
+            }
+        });
+
+        var app = new Vue({
+            el:"#app",
+            // 注入到组件中，所有组件都有$store
+            store:store,
+            computed:{
+                count(){
+                    return this.$store.state.count;
+                }
+            },
+            methods:{
+                btnClick(){
+                    // 提交
+                    this.$store.commit("add",2)
+                }
+            }
+        });
+    </script>
+</body>
+</html>

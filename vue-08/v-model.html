@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-model原理</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+        <input type="text" :value="msg" @input="msg=$event.target.value">
+        <!-- <input type="text" v-model="msg"> -->
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+               msg:""
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基于promise的ajax请求的封装</title>
+</head>
+<body>
+    <script>
+        let bxios = {
+            get:function(url){
+                let promise = new Promise(function(resolve, reject){
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("GET", url);
+                    xhr.send();
+
+                    xhr.onload = function(){
+                        resolve(xhr.response);
+                    }
+
+                    xhr.onerror = function(){
+                        reject(xhr.statusText);
+                    }
+                });
+                return promise;
+            }
+        };
+
+
+        let url = "https://api.apiopen.top/getJoke?page=1&count=10&type=image";
+
+        bxios.get(url).then(function(data){
+            console.log(data);
+        });
+    </script>
+</body>
+</html>

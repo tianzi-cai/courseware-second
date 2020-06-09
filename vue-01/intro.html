@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>介绍</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        {{message}}
+    </div>
+
+    <div id="app2">
+        <span v-bind:title="message">绑定属性</span>
+    </div>
+
+    <div id="app3">
+        <span v-if="seen">我是动态切换显示的</span>
+    </div>
+
+    <div id="app4">
+        <ul>
+            <li v-for="item in list">{{item}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            message: "123"
+        }
+    });
+
+    var app2 = new Vue({
+        el: "#app2",
+        data: {
+            message: "我是绑定"
+        }
+    });
+
+    var app3 = new Vue({
+        el: "#app3",
+        data: {
+            seen: true
+        }
+    });
+
+    var app4 = new Vue({
+        el:"#app4",
+        data:{
+            list:["你好","你不好","你到底好不好","好你大爷"]
+        }
+    });
+
+</script>
+
+</html>

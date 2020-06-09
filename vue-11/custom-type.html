@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>prop验证,自定义构造函数</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <person-component :person="person"></person-component>
+    </div>
+    <script>
+        function Person(name, age){
+            this.name = name;
+            this.age = age;
+        };
+
+        Vue.component("person-component",{
+            props:{
+               person:{
+                   type:Person
+               }
+            },
+            template:`
+                <div>
+                    {{person}}
+                </div>
+            `
+        });
+
+        var app = new Vue({
+            el:"#app",
+            data:{
+                person:new Person("小蒋",18)
+            }
+        });
+    </script>
+</body>
+</html>

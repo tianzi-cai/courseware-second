@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动画</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        .v-enter-active,.v-leave-active{
+            animation: bounce-in .5s;
+        }
+
+        @keyframes bounce-in {
+            0%{
+                transform: rotate(0deg);
+            }
+
+
+            100%{
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="show=!show">切换</button>
+        <transition>
+            <p v-if="show" style="background: red;">测试的，我会变化的</p>
+        </transition>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                show:true
+            }
+        });
+    </script>
+</body>
+</html>

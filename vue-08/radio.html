@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单选按钮</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>
+            <input type="radio" id="check" value="西游记" v-model="check">
+            <label for="check">西游记</label>
+        </p>
+        <p>
+            <input type="radio" id="check2" value="红楼梦" v-model="check">
+            <label for="check2">红楼梦</label>
+        </p>
+        <p>
+            <input type="radio" id="check3" value="水浒传" v-model="check">
+            <label for="check3">水浒传</label>
+        </p>
+        <p>
+            <input type="radio" id="check4" value="三国演义" v-model="check">
+            <label for="check4">三国演义</label>
+        </p>
+        <p>
+            {{check}}
+        </p>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                check:""
+            }
+        });
+    </script>
+</body>
+
+</html>

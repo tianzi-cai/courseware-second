@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>class对象语法</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        .active{
+            color: red;
+        }
+
+        .text-danger{
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="abc" :class="{active:isActive,'text-danger':hasError}">测试的</div>
+
+        <div class="abc" :class="obj">测试的</div>
+
+        <div class="abc" :class="clsObj">计算属性</div>
+    </div>
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                isActive :true,
+                hasError:true,
+
+                obj:{
+                    active:true,
+                    'text-danger':true
+                }
+            },
+
+            computed:{
+                clsObj:function(){
+                    return {
+                        active:this.isActive,
+                        'text-danger':this.hasError
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

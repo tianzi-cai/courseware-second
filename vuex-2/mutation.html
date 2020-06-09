@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mutations</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.4.0/dist/vuex.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{name}}
+    </div>
+
+    <script>
+        var store = new Vuex.Store({
+            state:{
+                name:"小明"
+            },
+            mutations:{
+                changeName(state,name){
+                    // 就算有异步，也可以的，但是不推荐，异步的东西放到action里面
+                    setTimeout(function(){
+                        state.name = name;
+                    }, 2000);
+                   
+                }
+            }
+        });
+
+        var app = new Vue({
+            el:"#app",
+            store:store,
+            computed:{
+                name(){
+                    return this.$store.state.name
+                }
+            }
+        });
+    </script>
+</body>
+</html>

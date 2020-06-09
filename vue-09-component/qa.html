@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线问答</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>1.西游记的作者是谁？</p>
+        <p>
+            <input type="radio" id="one" value="A" v-model="picked">
+            <label for="one">A:盛吉萎</label>
+        </p>
+        <p>
+            <input type="radio" id="two" value="B" v-model="picked">
+            <label for="two">B:钱红成</label>
+        </p>
+        <p>
+            <input type="radio" id="three" value="C" v-model="picked">
+            <label for="three">C:吴承恩</label>
+        </p>
+        <p>
+            <input type="radio" id="four" value="D" v-model="picked">
+            <label for="four">D:程屎江</label>
+        </p>
+
+        <p>2.钱老师的特点有哪几个</p>
+        <p>
+            <input type="checkbox" id="mao-one" value="A" v-model="selected">
+            <label for="mao-one">A:帅的一逼</label>
+        </p>
+        <p>
+            <input type="checkbox" id="mao-two" value="B" v-model="selected">
+            <label for="mao-two">B:高冷</label>
+        </p>
+        <p>
+            <input type="checkbox" id="mao-three" value="C" v-model="selected">
+            <label for="mao-three">C:发型不错</label>
+        </p>
+        <p>
+            <input type="checkbox" id="mao-four" value="D" v-model="selected">
+            <label for="mao-four">D:丑</label>
+        </p>
+        <button @click="mySubmit">提交</button>
+
+        <p>最终得分：{{score}}</p>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                picked:"",
+                selected:[],
+                score:0
+            },
+
+            methods:{
+                mySubmit(){
+                    this.score=0;
+                    // 计算得分的逻辑
+                    if(this.picked=="C"){
+                        this.score+=4;
+                    }
+
+                    this.score += this.getMutliScore(["A","B","C"], this.selected);
+                },
+
+                getMutliScore(answer, userAnswer){
+                    if(userAnswer.length>answer.length){
+                        return 0;
+                    }
+
+                    if(userAnswer.length==answer.length){
+                        answer = answer.sort();
+                        userAnswer = userAnswer.sort();
+                        if(userAnswer.join("") == answer.join("")){
+                            return 4;
+                        }
+                        return 0;
+                    }
+
+                    if(userAnswer.length<answer.length){
+                        for(let i=0; i<userAnswer.length; i++){
+                            if(answer.indexOf(userAnswer[i])<0){
+                                return 0;
+                            }
+                        }
+
+                        if(userAnswer.length>0){
+                            return 2;
+                        }
+                        return 0;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

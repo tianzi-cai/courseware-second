@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作业</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body,
+        #app {
+            height: 100%;
+        }
+
+        #app {
+            width: 600px;
+            margin: 0 auto;
+            background: #f8f8f8;
+        }
+
+        .top-bar {
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .input {
+            font-size: 18px;
+            padding: 10px 12px;
+            flex-grow: 1;
+            margin-right: 10px;
+            outline: none;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .btn {
+            font-size: 18px;
+            padding: 6px 12px;
+            border: none;
+            background: #128bed;
+            color: #fff;
+            border-radius: 3px;
+        }
+
+        .list-wrap {
+            padding: 0 12px;
+        }
+
+        .list-item {
+            list-style-type: none;
+            padding: 10px 0;
+            font-size: 16px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .title {
+            padding: 10px 12px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #666;
+            border-bottom: 1px solid #128bed;
+        }
+
+        .btn-wrap {
+            flex-shrink: 0;
+        }
+
+        .finish-item {
+            color: #999;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <my-input v-model="message" @my-add="add"></my-input>
+        <div class="title">未完成列表</div>
+        <div class="list-wrap">
+            <todo-item v-for="(item, index) in todoList" :item="item" :index="index"
+            @add-todo="finishItem" @delete-todo="deleteTodo"></todo-item>
+        </div>
+
+        <div class="title">完成列表</div>
+        <ul class="list-wrap">
+            <finish-item v-for="(item, index) in finishList" :item="item" :index="index"
+            @delete-finish="deleteFinish"></finish-item>
+        </ul>
+    </div>
+
+    <script>
+        Vue.component("my-input",{
+            props:["value"],
+            template:`
+            <div class="top-bar">
+                <input class="input" :value="value" @input="$emit('input', $event.target.value)" type="text" placeholder="请输入待办事件">
+                <button class="btn" v-on:click="add">增加</button>
+            </div>
+            `,
+
+            methods:{
+                add(){
+                    this.$emit("my-add");
+                }
+            }
+        });
+
+        Vue.component("todo-item",{
+            props:["item", "index"],
+            template:`
+            <div class="list-item" >
+                <p>{{item}}</p>
+                <div class="btn-wrap">
+                    <button @click="finishItem(index)">完成</button>
+                    <button @click="deleteTodo(index)">删除</button>
+                </div>
+            </div>
+            `,
+            methods:{
+                finishItem(index){
+                    this.$emit("add-todo", index);
+                },
+                deleteTodo(index){
+                    this.$emit("delete-todo", index);
+                }
+            }
+        });
+
+        Vue.component("finish-item",{
+            props:["item", "index"],
+            template:`
+            <li class="list-item finish-item">
+                <p>{{item}}</p>
+                <div class="btn-wrap">
+                    <button @click="deleteFinish(index)">删除</button>
+                </div>
+            </li>
+            `,
+            methods:{
+                deleteFinish(index){
+                    this.$emit("delete-finish", index);
+                }
+            }
+        });
+
+        
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: "",
+                todoList: [],
+                finishList: []
+            },
+            methods: {
+                add() {
+                    if (this.message) {
+                        if (this.todoList.indexOf(this.message) < 0) {
+                            this.todoList.push(this.message);
+                        } else {
+                            alert("不要重复添加");
+                        }
+                    } else {
+                        alert("不要输入空格");
+                    }
+                    this.message = "";
+                },
+
+                // 完成待办事项
+                finishItem(index) {
+                    this.finishList.push(this.todoList[index]);
+                    this.todoList.splice(index, 1);
+                },
+                // 删除待办事项
+                deleteTodo(index) {
+                    this.todoList.splice(index, 1);
+                },
+
+                // 删除完成事项
+                deleteFinish(index) {
+                    this.finishList.splice(index, 1);
+                }
+            },
+
+            created() {
+                let todo = JSON.parse(localStorage.getItem("todo"));
+                if (todo) {
+                    this.todoList = todo;
+                }
+
+                let finish = JSON.parse(localStorage.getItem("finish"));
+                if (finish) {
+                    this.finishList = finish;
+                }
+            },
+
+            watch: {
+                todoList(newVal) {
+                    localStorage.setItem("todo", JSON.stringify(newVal));
+                },
+                finishList(newVal) {
+                    localStorage.setItem("finish", JSON.stringify(newVal));
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

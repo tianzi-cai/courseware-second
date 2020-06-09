@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>段子列表</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .list-container {
+            width: 500px;
+            margin: 0 auto;
+        }
+
+        .list-item {
+            display: flex;
+            flex-direction: row;
+            padding: 12px;
+            border: 1px solid #eee;
+            margin-top: 10px;
+        }
+
+        .avatar-wrap {
+            border: 1px solid #eee;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            flex-shrink: 0;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        .avatar-wrap img {
+            width: 100%;
+        }
+
+        .list-content {
+            flex-grow: 1;
+        }
+
+        .list-title {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .list-name {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .content-img {
+            margin-top: 10px;
+        }
+
+        .content-img img {
+            width: 100%;
+        }
+
+        .list-footer {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .agree-wrap {
+            display: flex;
+            flex-direction: row;
+            font-size: 13px;
+        }
+
+        .time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .agree-count {
+            color: #333;
+            margin-right: 5px;
+        }
+
+        .disagree-count {
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="list-container" id="app">
+        <joke-item v-for="item in list" :item="item"></joke-item>
+    </div>
+
+    <script type="module">
+        import {jokeItem} from "./component/joke-item.js";
+
+        var app = new Vue({
+            el:"#app",
+            data:{
+                list:[]
+            },
+
+            created(){
+                let that = this;
+
+                let url = "https://api.apiopen.top/getJoke?page=1&count=10&type=image";
+
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", url);
+                xhr.send();
+
+                xhr.onload = function(){
+                    let result = JSON.parse(xhr.response);
+                    console.log(result);
+                    that.list = result.result;
+                }
+            },
+
+            components:{
+                "joke-item":jokeItem
+            }
+        });
+    </script>
+</body>
+
+</html>

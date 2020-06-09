@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>prop验证</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <person :id="123" name="小明" :girl-friend-sex="'女'"></person>
+    </div>
+    <script>
+        Vue.component("person",{
+            props:{
+               id:[String, Number],
+               name:{
+                   type:String,
+                   required:true
+               },
+               age:{
+                   type:Number,
+                //    default:18
+                    default(){
+                        return 18
+                    }
+               },
+               girlFriendSex:{
+                   type:String,
+                   validator:function(value){
+                       if(value=="女"){
+                           return true;
+                       }
+                       return false;
+                   }
+               }
+            },
+            template:`
+                <div>
+                    <p>{{id}}</p>
+                    <p>{{name}}</p>
+                    <p>{{age}}</p>
+                    <p>取向：{{girlFriendSex}}</p>
+                </div>
+            `
+        });
+
+        var app = new Vue({
+            el:"#app"
+        });
+    </script>
+</body>
+</html>

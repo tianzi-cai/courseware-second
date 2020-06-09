@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义指令</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button v-hover.abc="1+1">你好</button>
+    </div>
+
+    <script>
+        Vue.directive("hover",{
+            bind(el, binding, vnode){
+                let txt = el.innerText;
+
+                console.log(binding);
+                console.log(vnode);
+
+                el.addEventListener("mouseenter",function(){
+                    el.innerText = binding.value;
+                });
+
+                el.addEventListener("mouseleave",function(){
+                    el.innerText = txt;
+                });
+            }
+        });
+        var app = new Vue({
+            el:"#app"
+        });
+    </script>
+</body>
+</html>

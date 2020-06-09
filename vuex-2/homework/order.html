@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点餐系统</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex@3.4.0/dist/vuex.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,body,#app{
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #app{
+            width: 1202px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+        }
+
+
+        .order-container{
+            width: 400px;
+            flex-shrink: 0;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-container{
+            width: 800px;
+            flex-shrink: 0;
+            border: 1px solid #eee;
+        }
+
+        .title{
+            font-size: 20px;
+            font-weight: bold;
+            padding: 8px 0;
+            text-align: center;
+            color: #666;
+            flex-shrink: 0;
+        }
+
+        .tab-container{
+            flex-grow: 1;
+            padding: 10px;
+        }
+
+        .tab-title-wrap{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .tab-title{
+            text-align: center;
+            font-size: 16px;
+            color: #333;
+            padding: 5px 0;
+            cursor: pointer;
+            user-select: none;
+            border-bottom: 2px solid #fff;
+        }
+
+        .order-title{
+            width: 25%;
+            flex-shrink: 0;
+        }
+
+        .product-title{
+            width: 50%;
+            flex-shrink: 0;
+        }
+
+        .active{
+            border-bottom: 2px solid #128bed;
+        }
+
+        .food-container{
+            display: flex;
+            flex-direction: row;
+            padding: 15px 10px;
+        }
+
+        .food-col{
+            width: 33.3%;
+            flex-shrink: 0;
+            padding: 0 10px;
+        }
+
+        .food-title{
+            font-size: 30px;
+            color: #128bed;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #128bed;
+        }
+
+        .food-wrap{
+            height: 750px;
+            overflow: auto;
+        }
+
+        .food-item{
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-bottom: 1px solid rgb(245,108,108);
+        }
+
+        .food-img{
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .add-btn{
+            margin-top: 8px;
+            background: rgb(245,108,108);
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            padding: 12px;
+        }
+
+        .order-list-item{
+            padding: 12px;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .order-list-tr{
+            flex-shrink: 0;
+            width: 25%;
+            text-align: center;
+        }
+        .order-list-tr span{
+            color: #128bed;
+            user-select: none;
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 订单栏目 -->
+        <div class="order-container">
+            <div class="title">订单栏</div>
+            <div class="tab-container">
+                <div class="tab-title-wrap">
+                    <div class="tab-title order-title" :class="{active:orderIndex==0}" @click="orderChange(0)">当前订单</div>
+                    <div class="tab-title order-title" :class="{active:orderIndex==1}" @click="orderChange(1)">挂单中</div>
+                    <div class="tab-title order-title" :class="{active:orderIndex==2}" @click="orderChange(2)">已付款</div>
+                    <div class="tab-title order-title" :class="{active:orderIndex==3}" @click="orderChange(3)">取消的订单</div>
+                </div>
+                <component :is="orderName"></component>
+            </div>
+        </div>
+
+        <!-- 产品栏目 -->
+        <div class="product-container">
+            <div class="title">产品栏</div>
+            <div class="tab-container">
+                <div class="tab-title-wrap">
+                    <div class="tab-title product-title" :class="{active:productIndex==0}" @click="productChange(0)">常点食品</div>
+                    <div class="tab-title product-title" :class="{active:productIndex==1}" @click="productChange(1)">主菜单</div>
+                </div>
+
+                <component :is="productName"></component>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/index.js" type="module"></script>
+</body>
+</html>

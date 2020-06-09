@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        .wrap{
+            width: 500px;
+            height: 500px;
+            border: 1px solid red;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .item{
+            width: 100%;
+            height: 100%;
+        }
+
+        .blue{
+            background: blue;
+        }
+
+        .red{
+            background: red;
+        }
+
+        .yellow{
+            background: yellow;
+        }
+
+        .gray{
+            background: gray;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="wrap">
+            <div class="item blue" v-if="index==0">第一页</div>
+            <div class="item red" v-if="index==1">第二页</div>
+            <div class="item yellow" v-if="index==2">第三页</div>
+            <div class="item gray" v-if="index==3">第四页</div>
+        </div>
+        <button @click="prePage">上一页</button>
+        <button @click="nextPage">下一页</button>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                index:0
+            },
+            methods:{
+               prePage(){
+                   if(this.index>0){
+                    this.index--;
+                   }
+               },
+               nextPage(){
+                   if(this.index<3){
+                       this.index++;
+                   }
+               }
+            }
+        });
+    </script>
+</body>
+</html>

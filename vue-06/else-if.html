@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>else-if指令</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+       <div v-if="myType=='A'">A</div>
+       <div v-else-if="myType=='B'">B</div>
+       <div v-else-if="myType=='C'">C</div>
+       <div v-else>Not ABC</div>
+    </div>
+    <script>
+        var app = new Vue({
+            el:"#app",
+            data:{
+                myType:"A"
+            }
+        });
+    </script>
+</body>
+</html>

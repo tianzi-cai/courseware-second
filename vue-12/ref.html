@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>访问子元素或者子组件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component ref="myComponent"></my-component>
+        <div ref="testDiv">我是div</div>
+        <button @click="changeData">修改子元素数据</button>
+    </div>
+
+    <script>
+        Vue.component("my-component", {
+            data(){
+                return {
+                    message:"子元素"
+                }
+            },
+            template:`
+                <div>
+                    {{message}}
+                </div>
+            `
+        })
+
+        var app = new Vue({
+            el:"#app",
+            methods:{
+                changeData(){
+                    this.$refs.myComponent.message="父元素直接修改";
+                    this.$refs.testDiv.innerText = "父元素直接改的"
+                }
+            }
+        });
+
+        // 通过this.$refs访问子元素或者子组件
+    </script>
+</body>
+</html>

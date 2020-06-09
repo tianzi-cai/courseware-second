@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人员管理</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        .top-bar {
+            background: rgb(242, 242, 242);
+            padding: 20px 20px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            font-size: 16px;
+            color: #666;
+        }
+
+        #input {
+            border: 1px solid #ccc;
+            outline: none;
+            padding: 10px 8px;
+            margin-left: 10px;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .search-btn {
+            margin-left: 20px;
+            padding: 8px 15px;
+            font-size: 14px;
+            border: none;
+            background: rgb(64, 158, 255);
+            color: #fff;
+            border-radius: 3px;
+        }
+
+        .content {
+            margin-top: 30px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th {
+            text-align: left;
+            color: #999;
+            user-select: none;
+        }
+
+        th,
+        td {
+            border: 1px solid #eee;
+            padding: 8px 10px;
+        }
+
+        .date-th {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .arrow {
+            margin-left: 5px;
+        }
+
+        .edit-btn {
+            font-size: 14px;
+            color: #666;
+            padding: 3px 8px;
+            border: 1px solid #eee;
+            background: #fff;
+            border-radius: 6px;
+        }
+
+        .delete-btn {
+            font-size: 14px;
+            color: #fff;
+            padding: 4px 8px;
+            border: 1px solid #eee;
+            background: rgb(245, 108, 108);
+            margin-left: 5px;
+            border-radius: 6px;
+        }
+
+        .overlay{
+            position: fixed;
+            left: 0;
+            width: 100%;
+            bottom: 0;
+            top: 0;
+            z-index: 100;
+            background: rgba(0,0,0, 0.5);
+        }
+
+        .input-container {
+            background: #fff;
+            border-radius: 4px;
+            width: 250px;
+            margin: 20% auto;
+            padding: 15px 12px;
+        }
+
+        .input-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .input-wrap {
+            margin-bottom: 10px;
+        }
+
+        .input-wrap input {
+            outline: none;
+            border: 1px solid #eee;
+            padding: 5px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .btn-wrap {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <div class="top-bar">
+            <label for="input">姓名：</label>
+            <input type="text" id="input" placeholder="请输入姓名" v-model.trim="message">
+            <button class="search-btn" @click="search">搜索</button>
+        </div>
+
+        <!-- 内容部分 -->
+        <div class="content">
+            <table class="table" border-collapse="collapse">
+                <thead>
+                    <tr>
+                        <th @click="sortByDate">
+                            <span class="date-th">
+                                日期
+                                <img v-if="sortFlag==0" class="arrow" src="arrow.png" alt="">
+                                <img v-if="sortFlag==1" class="arrow" src="arrow-up.png" alt="">
+                                <img v-if="sortFlag==2" class="arrow" src="arrow-down.png" alt="">
+                            </span>
+                        </th>
+                        <th>姓名</th>
+                        <th>地址</th>
+                        <th>邮编</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in list">
+                        <td>{{item.date}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.address}}</td>
+                        <td>{{item.postCode}}</td>
+                        <td>
+                            <button class="edit-btn" @click="edit(index)">编辑</button>
+                            <button class="delete-btn" @click="deleteItem(index)">删除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="overlay" v-if="overlayShow">
+            <div class="input-container">
+                <div class="input-label">姓名</div>
+                <div class="input-wrap">
+                    <input type="text" placeholder="请输入姓名" v-model="inputName">
+                </div>
+
+                <div class="input-label">地址</div>
+                <div class="input-wrap">
+                    <input type="text" placeholder="请输入地址" v-model="inputAddress">
+                </div>
+
+                <div class="input-label">邮编</div>
+                <div class="input-wrap">
+                    <input type="text" placeholder="请输入邮编" v-model="inputCode">
+                </div>
+
+                <div class="btn-wrap">
+                    <button class="edit-btn" @click="cancel">取消</button>
+                    <button class="delete-btn" @click="save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let list = [
+            {
+                date: "2015-05-01",
+                name: "王小虎",
+                address: "上海市普陀区金沙江路1518弄",
+                postCode: 200333
+            },
+            {
+                date: "2016-11-04",
+                name: "陈晨",
+                address: "苏州市平江区",
+                postCode: 100000
+            },
+            {
+                date: "2014-06-25",
+                name: "宁浩",
+                address: "常州市金坛区天宇人家",
+                postCode: 100001
+            },
+            {
+                date: "2017-05-01",
+                name: "张海",
+                address: "安庆市大观区",
+                postCode: 100002
+            },
+            {
+                date: "2016-11-05",
+                name: "陈王",
+                address: "合肥市包河区",
+                postCode: 100003
+            },
+            {
+                date: "2015-05-02",
+                name: "王浩",
+                address: "北京市昌平区",
+                postCode: 100004
+            }
+        ];
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                list: list,
+                message:"",
+
+                sortFlag:0,
+
+                inputName:"",
+                inputAddress:"",
+                inputCode:"",
+                overlayShow:false,
+
+                tempIndex:-1,
+            },
+
+            methods:{
+                search(){
+                    if(this.message){
+                        let that = this;
+                        this.list = this.list.filter(function(item){
+                            if(item.name.includes(that.message)){
+                                return true;
+                            }
+                            return false;
+                        });
+                    }else{
+                        alert("请输入名字")
+                    }
+                },
+
+                sortByDate(){
+                    if(this.sortFlag==0 || this.sortFlag == 2){
+                        this.sortFlag=1;
+                        this.list.sort(function(a, b){
+                            return parseInt(a.date.replace(/-/g,"")) - parseInt(b.date.replace(/-/g,""));
+                        });
+                        return;
+                    }
+
+                    if(this.sortFlag == 1){
+                        this.sortFlag=2;
+                        this.list.sort(function(a, b){
+                            return parseInt(b.date.replace(/-/g,"")) - parseInt(a.date.replace(/-/g,""));
+                        });
+                        return;
+                    }
+                },
+
+                edit(index){
+                    this.tempIndex= index;
+                    this.overlayShow = true;
+                    this.inputName = this.list[index].name;
+                    this.inputAddress = this.list[index].address;
+                    this.inputCode = this.list[index].postCode;
+                },
+
+                deleteItem(index){
+                    this.list.splice(index,1);
+                },
+
+                cancel(){
+                    this.overlayShow = false;
+                },
+
+                save(){
+                    if(this.tempIndex>-1){
+                        if(this.inputName){
+                            this.list[this.tempIndex].name = this.inputName;
+                        }else{
+                            alert("名字不能空");
+                            return;
+                        }
+
+                        if(this.inputAddress){
+                            this.list[this.tempIndex].address = this.inputAddress;
+                        }else{
+                            alert("地址不能空");
+                            return;
+                        }
+
+                        if(this.inputCode){
+                            this.list[this.tempIndex].postCode = this.inputCode;
+                        }else{
+                            alert("邮编不能空");
+                            return;
+                        }
+                    }
+                    this.tempIndex = -1;
+                    this.inputName = "";
+                    this.inputAddress = "";
+                    this.inputCode = "";
+                    this.overlayShow = false;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

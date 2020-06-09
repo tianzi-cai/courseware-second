@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非prop属性禁用继承</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component post-title="你好" abc="abc" class="abc"></my-component>
+    </div>
+
+    <script>
+        
+        Vue.component("my-component",{
+            inheritAttrs:false, // 禁用替换行为，但是不禁止合并行为
+            props:["postTitle"],
+            template:`
+                <div id='abc' abc='123' class='bcd'>{{postTitle}}</div>
+            `
+        });
+
+        var app = new Vue({
+            el:"#app"
+        });
+    </script>
+</body>
+</html>

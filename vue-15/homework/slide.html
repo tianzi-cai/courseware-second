@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态组件做滑动效果</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        #app{
+            width: 400px;
+            height: 300px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transition: all .5s;
+        }
+
+        .one{
+            background: rosybrown;
+        }
+        .two{
+            background: darkcyan;
+        }
+        .three{
+            background:  cornflowerblue;
+        }
+        .four{
+            background: springgreen;
+        }
+
+         .right-left-leave-to{
+            transform: translateX(-400px);
+        }
+
+        .right-left-enter{
+            transform: translateX(400px);
+        }
+
+        .left-right-enter{
+            transform: translateX(-400px);
+        }
+
+        .left-right-leave-to{
+            transform: translateX(400px);
+        }
+
+        button{
+            position: relative;
+            z-index: 10;
+            transform: translateY(100px);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <transition :name="transitionName">
+            <component :is="componentName"></component>
+        </transition>
+        <button @click="prevPage">上一页</button>
+        <button @click="nextPage">下一页</button>
+    </div>
+
+    <script>
+        Vue.component("component-1",{
+            template:`
+                <div class="page one">我是第一页</div>
+            `
+        });
+        Vue.component("component-2",{
+            template:`
+                <div class="page two">我是第二页</div>
+            `
+        });
+        Vue.component("component-3",{
+            template:`
+                <div class="page three">我是第三页</div>
+            `
+        });
+        Vue.component("component-4",{
+            template:`
+                <div class="page four">我是第四页</div>
+            `
+        });
+        var app = new Vue({
+            el:"#app",
+            data:{
+                index:1,
+                componentName:"component-1",
+                transitionName:"right-left"
+            },
+
+            methods:{
+                prevPage(){
+                    if(this.index>1){
+                        this.index--;
+                    }
+                },
+
+                nextPage(){
+                    if(this.index<4){
+                        this.index++;
+                    }
+                }
+            },
+            watch:{
+                index(newVal, oldVal){
+                    this.componentName = "component-" + newVal;
+
+                    if(newVal>oldVal){
+                        this.transitionName="right-left";
+                    }else{
+                        this.transitionName="left-right";
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

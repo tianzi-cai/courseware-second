@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>template标签</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <template v-if="awesome">
+            <p>哈哈</p>
+            <p>哈哈</p>
+            <p>哈哈</p>
+            <p>哈哈</p>
+        </template>
+        <template v-else>
+            <p>哈尼玛</p>
+            <p>哈尼玛</p>
+            <p>哈尼玛</p>
+            <p>哈尼玛</p>
+        </template>
+
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                awesome: true
+            }
+        });
+
+    </script>
+</body>
+
+</html>

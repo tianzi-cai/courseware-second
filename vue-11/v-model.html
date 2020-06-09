@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-model</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- <input type="text" :value="message" @input="message=$event.target.value"> -->
+        <!-- <my-input :value="message" @input="message=$event"></my-input> -->
+        <my-input v-model="message"></my-input>
+        <p>{{message}}</p>
+    </div>
+
+    <script>
+        Vue.component("my-input", {
+            props:["value"],
+            template:`
+                <div>
+                    <p>-------</p>
+                    <input type="text" :value="value" @input="$emit('input', $event.target.value)"> 
+                    <p>-------</p>   
+                </div>
+            `
+        });
+        var app = new Vue({
+            el:"#app",
+            data:{
+                message:""
+            }
+        });
+    </script>
+</body>
+</html>

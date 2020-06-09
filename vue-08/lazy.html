@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lazy修饰符</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+        <!-- lazy将input事件改成change事件 -->
+        <input type="text" v-model.lazy="msg">
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+               msg:""
+            }
+        });
+    </script>
+</body>
+
+</html>

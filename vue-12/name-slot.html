@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>具名插槽</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component>
+            <!-- v-slot:缩写# -->
+            <template #header>
+                <div>头</div>
+                <div>头</div>
+            </template>
+
+            <template v-slot:middle>
+                <div>中间</div>
+                <div>中间</div>
+            </template>
+            
+            <template v-slot:tail>
+                <div>尾</div>
+                <div>尾</div>
+            </template>
+            
+        </my-component>
+    </div>
+
+    <script>
+       Vue.component("my-component", {
+           template:`
+            <div>
+                <slot name="header"></slot>
+                <p>第一行</p>
+                <slot name="middle"></slot>
+                <p>最后一行</p>
+                <slot name="tail"></slot>
+            </div>
+           `
+       });
+
+       var app = new Vue({
+           el:"#app"
+       });
+    </script>
+</body>
+</html>

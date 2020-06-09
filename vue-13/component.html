@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件的过渡</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        /* 进入的动画效果 */
+        .fade-enter-active {
+            transition: all 2s;
+        }
+        .fade-enter {
+            opacity: 0;
+        }
+
+        .fade-leave-active{
+            transition: all 2s;
+        }
+        .fade-leave-to{
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="componentName='one'">组件一</button>
+        <button @click="componentName='two'">组件二</button>
+        <transition name="fade">
+            <component :is="componentName"></component>
+        </transition>
+
+    </div>
+
+    <script>
+
+        Vue.component("one",{
+            template:`
+            <div style="background:red">我是组件一</div>
+            `
+        });
+
+        Vue.component("two",{
+            template:`
+            <div style="background:blue">我是组件二</div>
+            `
+        });
+        var app = new Vue({
+            el: "#app",
+            data: {
+                componentName: "one"
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模块化</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <my-component-name></my-component-name>
+    </div>
+    <script type="module">
+        import {myComponentName} from "./js/a.js";
+
+        Vue.component("my-component-name", myComponentName);
+
+       var app = new Vue({
+           el:"#app",
+        //    components:{
+        //        "my-component-name":myComponentName
+        //    }
+       });
+    </script>
+</body>
+</html>
